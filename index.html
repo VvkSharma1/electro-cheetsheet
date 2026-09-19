@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Electromagnetics Midsem Cheat Sheet</title>
+<script>
+MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js"></script>
+<style>
+  :root{
+    --blue:#14406e; --red:#8a1414; --gray:#5a5a5a; --boxbg:#f4f7fb; --rule:#14406e99;
+  }
+  @page { size: A4 landscape; margin: 7mm; }
+  * { box-sizing: border-box; }
+  html,body{ margin:0; padding:0; background:#e8e8e8; }
+  body{ font-family: "Georgia","Times New Roman",serif; color:#111; font-size:9.2pt; line-height:1.22; }
+  .page{
+    width:297mm; min-height:210mm; background:white; margin:6mm auto; padding:7mm;
+    box-shadow:0 0 6px rgba(0,0,0,0.3);
+  }
+  @media print{
+    body{ background:white; }
+    .page{ box-shadow:none; margin:0; width:auto; min-height:0; page-break-after: always; }
+  }
+  header.title{ text-align:center; margin-bottom:2mm; }
+  header.title h1{ font-size:13pt; margin:0; display:inline; }
+  header.title .sub{ font-size:8pt; color:#222; margin-left:6pt; }
+  header.title .pagelabel{ float:right; font-weight:bold; font-size:9pt; }
+  hr.top{ border:none; border-top:0.5pt solid #999; margin:1mm 0 2mm 0; }
+
+  .cols{ column-count:4; column-gap:4mm; column-rule:0.4pt solid #ccc; }
+  .htitle{
+    color:var(--blue); font-weight:bold; font-size:9.6pt; border-bottom:0.6pt solid var(--rule);
+    margin:5pt 0 2pt 0; break-after:avoid-column;
+  }
+  h3.htitle{ font-size:9.6pt; }
+  p{ margin:0 0 3pt 0; text-align:left; }
+  .use{ font-style:italic; color:var(--gray); font-size:8.6pt; }
+  .use b{ font-style:normal; }
+  .trap{ color:var(--red); font-size:8.6pt; }
+  .trap b{ color:var(--red); }
+  .cond{ font-size:8.6pt; }
+  b.hh{ color:var(--red); }
+
+  .card{
+    break-inside:avoid; background:var(--boxbg); border:0.5pt solid #6c8fb8; border-radius:2px;
+    margin:3pt 0; padding:3pt 4pt; font-size:8.6pt;
+  }
+  .card .cardtitle{
+    font-weight:bold; font-size:8.8pt; background:#dbe6f3; margin:-3pt -4pt 3pt -4pt; padding:2pt 4pt;
+    border-bottom:0.5pt solid #6c8fb8;
+  }
+  table{ border-collapse:collapse; width:100%; font-size:8.4pt; margin:2pt 0; }
+  table.spectrum th, table.spectrum td{ text-align:left; padding:1pt 3pt; border-bottom:0.4pt solid #ccc; }
+  table.spectrum th{ border-bottom:1pt solid #333; }
+  table.simple td, table.simple th{ padding:1pt 4pt; vertical-align:top; }
+  table.simple{ font-size:8.4pt; }
+  .mini{ font-size:8.4pt; }
+  .footerbar{ font-size:8.4pt; color:var(--gray); border-top:0.4pt solid #999; margin-top:4pt; padding-top:3pt; }
+  sup, sub { line-height:0; }
+</style>
+</head>
+<body>
+
+<!-- ============================ PAGE 1 ============================ -->
+<div class="page">
+  <header class="title">
+    <span class="pagelabel">PAGE 1/2</span>
+    <h1>Electromagnetics Midsem Cheat Sheet</h1>
+    <span class="sub">(Ellingson, <i>Electromagnetics Vol.&nbsp;1</i>) — Modules 1–3</span>
+  </header>
+  <hr class="top">
+
+  <div class="cols">
+
+    <h3 class="htitle">1.1&ndash;1.2 What Is EM / Spectrum</h3>
+    <p>EM generalizes circuit theory: lumped \(R,L,C\) models fail once device size \(\sim\) a wavelength. Rule of thumb: if length \(\ell \ll \lambda\) (say \(\ell<\lambda/100\)) \(\Rightarrow\) lumped/DC analysis OK; else distributed (wave) treatment needed.</p>
+    \[ c = f\lambda \ \ (\text{free space}),\quad c\approx 3.00\times10^{8}\text{ m/s} \]
+    <table class="spectrum">
+      <tr><th>Band</th><th>Freq.</th><th>Apps</th></tr>
+      <tr><td>\(\gamma\)-ray</td><td>\(>3\times10^{19}\)Hz</td><td></td></tr>
+      <tr><td>X-ray</td><td>\(3{\times}10^{16}\)&ndash;\(3{\times}10^{19}\)</td><td>imaging</td></tr>
+      <tr><td>UV</td><td>\(2.5{\times}10^{15}\)&ndash;\(3{\times}10^{16}\)</td><td></td></tr>
+      <tr><td>Optical</td><td>\(4.3{\times}10^{14}\)&ndash;\(2.5{\times}10^{15}\)</td><td>fiber, light</td></tr>
+      <tr><td>IR</td><td>300GHz&ndash;\(4.3{\times}10^{14}\)</td><td>thermal</td></tr>
+      <tr><td>Radio</td><td>3kHz&ndash;300GHz</td><td>comm/radar</td></tr>
+    </table>
+    <p class="mini"><b>Radio sub-bands:</b> VLF(3&ndash;30kHz,nav) LF(30&ndash;300kHz,RFID) MF(300k&ndash;3MHz,AM) HF(3&ndash;30MHz,CB/global) VHF(30&ndash;300MHz,FM/TV) UHF(300M&ndash;3GHz,cell/WLAN/TV) SHF(3&ndash;30GHz,SAT/radar) EHF(30&ndash;300GHz,60GHz WLAN).
+    Optical colors (Violet&rarr;Red): \(668\)&ndash;\(789 \to 400\)&ndash;\(484\) THz.</p>
+    <p class="use"><b>Use:</b> Identify which physics regime (DC/lumped vs. distributed/wave) a problem is in.</p>
+
+    <h3 class="htitle">1.3 Fundamentals of Waves</h3>
+    <p>1-D wave eqn: \(\dfrac{\partial^2 p}{\partial x^2}-\dfrac{1}{c_s^2}\dfrac{\partial^2 p}{\partial t^2}=0\). Traveling-wave solution:</p>
+    \[ p(x,t)=A_m\cos(\omega t-\beta x+\psi) \]
+    <p>\(\beta\)(rad/m)=phase/wavenumber; \(\omega=2\pi f\).</p>
+    \[ \lambda=\frac{2\pi}{\beta},\qquad v_p=\lambda f=\frac{\omega}{\beta} \]
+    <p><b>Sign rule:</b> phase \(\omega t-\beta x\) (decreasing with \(x\)) \(\Rightarrow\) \(+x\) travel; \(\omega t+\beta x\Rightarrow -x\) travel.</p>
+    <p class="trap"><b>Trap:</b> Mixing up \(+\beta x\) vs \(-\beta x\) direction sign.</p>
+
+    <h3 class="htitle">1.4 Guided vs Unguided</h3>
+    <p>Unguided: antennas/radiators, spreads freely. Guided: transmission lines, waveguides, fiber — confined to a structure.</p>
+    <div class="card"><div class="cardtitle">Free-space vs Guided Wave</div>
+      <table class="simple"><tr><td style="width:48%"><b>Free-space</b><br>spreads in all dir.<br>\(\lambda=c/f\)<br>antennas</td>
+      <td><b>Guided</b><br>confined to structure<br>\(\lambda=v_p/f\), \(v_p<c\) typ.<br>TEM/waveguide/fiber</td></tr></table>
+    </div>
+
+    <h3 class="htitle">1.5 Phasors</h3>
+    <p>\(A(t)=A_m\cos(\omega t+\psi) \leftrightarrow C=A_m e^{j\psi}\) (freq. suppressed).</p>
+    \[ A(t)=\mathrm{Re}\{Ce^{j\omega t}\} \]
+    <p>Enables: peak \(=|C|\), phase \(=\angle C\) (no search/integration); derivatives \(\to \times j\omega\).</p>
+    <p class="use"><b>Use:</b> Any sinusoidal-steady-state (AC) analysis — circuits, TL, plane waves.</p>
+    <p class="trap"><b>Trap:</b> Phasor magnitude (\(A_m\), peak) vs. rms \(=A_m/\sqrt2\).</p>
+
+    <h3 class="htitle">2.2&ndash;2.7 E, D, B, H</h3>
+    <div class="card"><div class="cardtitle">Field Quantity Definitions</div>
+      <b>E</b> (V/m): force/charge, \(\mathbf{E}=\lim_{q\to0}\mathbf F/q\); points where \(V\) drops fastest, mag.=rate of drop.<br>
+      <b>D</b> (C/m\(^2\)) \(=\epsilon \mathbf E\): flux description; \(\oint\mathbf D\cdot d\mathbf s=Q_{encl}\) (Gauss).<br>
+      <b>B</b> (T=Wb/m\(^2\)): \(\mathbf F=q\mathbf v\times\mathbf B\); field lines always close.<br>
+      <b>H</b> (A/m) \(=\mathbf B/\mu\): field with material effect factored out.
+    </div>
+    <p><b>Constitutive:</b> \(\mathbf D=\epsilon\mathbf E\), \(\mathbf B=\mu\mathbf H\), \(\mathbf J=\sigma\mathbf E\).
+    \(\epsilon_0\approx8.854\times10^{-12}\)F/m, \(\mu_0=4\pi\times10^{-7}\)H/m, \(\epsilon_r=\epsilon/\epsilon_0\), \(\mu_r=\mu/\mu_0\) (typ. \(\approx1\) except ferromagnets \(\sim10^6\)).</p>
+    <p class="use"><b>Use:</b> \(D\) matters at boundaries (perp. component constrained); \(H\) matters at boundaries (tangential constrained). In homogeneous media \(D,B\) look redundant with \(E,H\).</p>
+    <p class="cond"><b>Cond:</b> LTI (homogeneous, isotropic, linear, time-invariant) needed for superposition to hold.</p>
+
+    <h3 class="htitle">4.5&ndash;4.10 Vector Operators</h3>
+    \[ \nabla f=\hat x\frac{\partial f}{\partial x}+\hat y\frac{\partial f}{\partial y}+\hat z\frac{\partial f}{\partial z} \]
+    \[ \nabla\cdot\mathbf A=\partial_x A_x+\partial_y A_y+\partial_z A_z \]
+    \[ \nabla\times\mathbf A=\hat x(\partial_y A_z-\partial_z A_y)+\hat y(\partial_z A_x-\partial_x A_z)+\hat z(\partial_x A_y-\partial_y A_x) \]
+    \[ \nabla^2 f=\nabla\cdot(\nabla f)=\frac{\partial^2f}{\partial x^2}+\frac{\partial^2f}{\partial y^2}+\frac{\partial^2f}{\partial z^2} \]
+    <p><b>Cylindrical</b> \(\nabla=\hat\rho\frac{\partial}{\partial\rho}+\hat\phi\frac1\rho\frac{\partial}{\partial\phi}+\hat z\frac{\partial}{\partial z}\).
+    <b>Spherical</b> \(\nabla=\hat r\frac{\partial}{\partial r}+\hat\theta\frac1r\frac{\partial}{\partial\theta}+\hat\phi\frac{1}{r\sin\theta}\frac{\partial}{\partial\phi}\).</p>
+
+    <div class="card"><div class="cardtitle">Divergence Thm / Stokes' Thm</div>
+      \[ \int_{\mathcal V}(\nabla\cdot\mathbf A)\,dv=\oint_{\mathcal S}\mathbf A\cdot d\mathbf s \]
+      \[ \int_{\mathcal S}(\nabla\times\mathbf A)\cdot d\mathbf s=\oint_{\mathcal C}\mathbf A\cdot d\mathbf l \]
+      Converts volume&harr;surface (Div. Thm) or surface&harr;closed-path (Stokes) integrals.
+    </div>
+
+    <div class="card"><div class="cardtitle">When to use which operator</div>
+      <b>Grad</b>&rarr; rate/dir. of max increase of scalar (\(E=-\nabla V\)).
+      <b>Div</b>&rarr; flux/source density per vol. (Gauss' law, \(\rho_v\)).
+      <b>Curl</b>&rarr; circulation per area (Faraday, Ampere).
+      <b>Div.Thm</b>&rarr; swap vol.&harr;closed-surf. integral.
+      <b>Stokes</b>&rarr; swap open-surf.&harr;closed-path integral.
+      <b>Laplacian</b>&rarr; 2nd-derivative/Poisson's eqn.
+    </div>
+    <p class="trap"><b>Trap:</b> \(\nabla\times\mathbf A\) determinant sign errors; forgetting \(1/\rho\), \(1/(r\sin\theta)\) metric factors in curvilinear coords.</p>
+
+    <div class="card"><div class="cardtitle">MAXWELL'S EQUATIONS</div>
+      <table class="simple" style="font-size:8.2pt;">
+        <tr><td><b>Law</b></td><td><b>Integral</b></td><td><b>Differential</b></td></tr>
+        <tr><td>Gauss (E)</td><td>\(\oint_S\mathbf D\cdot d\mathbf s=Q_{encl}\)</td><td>\(\nabla\cdot\mathbf D=\rho_v\)</td></tr>
+        <tr><td>Gauss (M)</td><td>\(\oint_S\mathbf B\cdot d\mathbf s=0\)</td><td>\(\nabla\cdot\mathbf B=0\)</td></tr>
+        <tr><td>Faraday</td><td>\(\oint_C\mathbf E\cdot d\mathbf l=-\frac{\partial}{\partial t}\int_S\mathbf B\cdot d\mathbf s\)</td><td>\(\nabla\times\mathbf E=-\partial_t \mathbf B\)</td></tr>
+        <tr><td>Ampere-Max.</td><td>\(\oint_C\mathbf H\cdot d\mathbf l=I_{encl}+\int_S\partial_t\mathbf D\cdot d\mathbf s\)</td><td>\(\nabla\times\mathbf H=\mathbf J+\partial_t\mathbf D\)</td></tr>
+      </table>
+      <b>Phasor form</b> (source-free, lossless, \(\partial/\partial t\to j\omega\)):
+      \(\nabla\cdot\tilde{\mathbf D}=\tilde\rho_v\); \(\nabla\times\tilde{\mathbf E}=-j\omega\tilde{\mathbf B}\); \(\nabla\cdot\tilde{\mathbf B}=0\); \(\nabla\times\tilde{\mathbf H}=\tilde{\mathbf J}+j\omega\tilde{\mathbf D}\).<br>
+      <b>Meaning:</b> Gauss(E)=charge sources \(E\); Gauss(M)=no monopoles; Faraday=changing \(B\) induces circulating \(E\) (generalizes KVL); Ampere-Maxwell=current <i>and</i> changing \(D\) (displacement current) induce circulating \(H\) (generalizes Ampere's law). <b>Static case:</b> RHS time-derivative terms vanish \(\Rightarrow\) \(E,B\) decouple (electro-/magneto-statics); circuit laws (KVL, Ampere) are the static special case.
+    </div>
+
+    <div class="card"><div class="cardtitle">BOUNDARY CONDITIONS (region 1 &rarr; 2, \(\hat n\) into region 1)</div>
+      \[ \hat n\times(\mathbf E_1-\mathbf E_2)=0 \]
+      \[ \hat n\cdot(\mathbf D_1-\mathbf D_2)=\rho_s \]
+      \[ \hat n\cdot(\mathbf B_1-\mathbf B_2)=0 \]
+      \[ \hat n\times(\mathbf H_1-\mathbf H_2)=\mathbf J_s \]
+      \(E_{tan}\): continuous. \(D_n\): jumps by \(\rho_s\). \(B_n\): continuous. \(H_{tan}\): jumps by \(J_s\).
+      On PEC surface: \(E_{tan}=0\), \(\mathbf D\cdot\hat n=\rho_s\).<br>
+      <b>Derivation:</b> normal comps. (D,B) &rarr; Gauss law + thin <i>pillbox</i>; tangential comps. (E,H) &rarr; Faraday/Ampere + thin <i>loop</i>.
+      <p class="cond"><b>Cond:</b> No free surface charge \(\Rightarrow\) \(D_n\) continuous; no surface current \(\Rightarrow\) \(H_{tan}\) continuous.</p>
+      <p class="trap"><b>Trap:</b> Confusing which field (E vs D; B vs H) is constrained tangentially vs. normally.</p>
+    </div>
+
+    <div class="card"><div class="cardtitle">Material Properties &amp; Constitutive Params</div>
+      \(\epsilon\)(F/m): \(E\) response to charge. \(\mu\)(H/m): \(B\) response to current. \(\sigma\)(S/m): \(J\) response to \(E\) (\(J=\sigma E\)).
+      <b>Frequency dependence:</b> good conductor (\(\sigma\to\infty\)): conduction current \(J=\sigma E\) dominates, \(E\to0\) inside, no energy storage (\(\epsilon\) irrelevant). Lossless dielectric (\(\sigma\approx0\)): displacement current dominates, characterized by \(\epsilon\) alone. Ranges: insulators \(\sigma\ll10^{-10}\); semicond. \(10^{-4}\)&ndash;\(10^{1}\); conductors \(>10^{5}\)S/m.
+      <b>Perfect conductor:</b> \(\sigma\to\infty\Rightarrow E\to0\), \(V=\)const (equipotential vol.).
+    </div>
+
+    <h3 class="htitle">2.8 Linearity &amp; Reciprocity</h3>
+    <p><b>Homogeneous:</b> params constant in space. <b>Isotropic:</b> same in all orientations. <b>Linear:</b> params independent of field magnitude. <b>Time-invariant:</b> params don't change in time.
+    <b>Consequence:</b> LTI \(\Rightarrow\) superposition valid: \(E_{tot}=E_1+E_2\) for independent sources.
+    <b>Reciprocity:</b> response unchanged if source &amp; observation points are swapped (used for antenna Tx/Rx equivalence).</p>
+
+    <h3 class="htitle">Power &amp; Energy: Circuit &harr; Field &harr; Wave</h3>
+    <p>Circuit: \(P=IV\). Field (Joule heating): \(P=\int_{\mathcal V}\sigma|E|^2\,dv=\int\mathbf E\cdot\mathbf J\,dv\) (reduces to \(P=IV\) for uniform wire). Wave: instantaneous \(\mathbf S=\mathbf E\times\mathbf H\) (Poynting, W/m\(^2\)); time-avg \(S_{ave}=\frac12\mathrm{Re}\{\tilde{\mathbf E}\times\tilde{\mathbf H}^*\}\). TL: \(P_{av}^+=|V_0^+|^2/2Z_0\). <b>Conservation:</b> \(P_{inc}=P_{refl}+P_{load}\).</p>
+    <p class="use"><b>Use:</b> Field power &rarr; heat generation in lossy media; wave power &rarr; radiated/transmitted energy flow.</p>
+
+    <h3 class="htitle">USRP / Spectrum Scanning (conceptual)</h3>
+    <p>A spectrum analyzer/USRP sweeps a local-oscillator frequency, mixing the received signal down and measuring power in narrow bands &rarr; plots <b>power vs. frequency</b>. <b>Peaks</b> = occupied channels/signals; <b>noise floor</b> = receiver+environment noise; <b>occupied bandwidth</b> = span of a peak above floor; <b>center frequency</b> = peak location. <b>Spectrum allocation chart:</b> regulatory division of frequency bands among services (broadcast, cellular, satellite, radar,&hellip;) to prevent interference — motivates band planning in Table above.</p>
+
+  </div>
+</div>
+
+<!-- ============================ PAGE 2 ============================ -->
+<div class="page">
+  <header class="title">
+    <span class="pagelabel">PAGE 2/2</span>
+    <h1>Electromagnetics Midsem Cheat Sheet (cont.)</h1>
+    <span class="sub">Transmission Lines &amp; Plane Waves</span>
+  </header>
+  <hr class="top">
+
+  <div class="cols">
+
+    <h3 class="htitle">3.4&ndash;3.9 TL Model &amp; Wave Eqn</h3>
+    <p>Distributed per-length: \(R'(\Omega/m)\) series loss, \(L'(H/m)\) series ind., \(G'(S/m)\) shunt leak, \(C'(F/m)\) shunt cap. <b>Telegrapher's Eqns (phasor):</b></p>
+    \[ -\frac{\partial \tilde V}{\partial z}=(R'+j\omega L')\tilde I,\qquad -\frac{\partial \tilde I}{\partial z}=(G'+j\omega C')\tilde V \]
+    <p><b>Wave eqn:</b> \(\dfrac{\partial^2\tilde V}{\partial z^2}-\gamma^2\tilde V=0\), \quad \(\gamma=\sqrt{(R'+j\omega L')(G'+j\omega C')}=\alpha+j\beta\).</p>
+    \[ \tilde V(z)=V_0^+e^{-\gamma z}+V_0^-e^{+\gamma z} \]
+    <p>\(\alpha\)(Np/m)=attenuation (Re\(\{\gamma\}\)); \(\beta\)(rad/m)=phase const. (Im\(\{\gamma\}\)).</p>
+    \[ Z_0=\sqrt{\frac{R'+j\omega L'}{G'+j\omega C'}}=\frac{V_0^+}{I_0^+}=\frac{-V_0^-}{I_0^-} \]
+    <p class="use"><b>Use:</b> \(Z_0\) relates co-propagating \(V,I\) only (not total \(V/I\)).</p>
+
+    <div class="card"><div class="cardtitle">Lossless / Low-loss</div>
+      Lossless (\(R'=G'=0\)) or low-loss (\(R'\ll\omega L'\), \(G'\ll\omega C'\)):
+      \[ \alpha\approx0,\quad \beta\approx\omega\sqrt{L'C'},\quad v_p=\frac{1}{\sqrt{L'C'}} \]
+      \[ Z_0\approx\sqrt{L'/C'}\ \ (\text{real}) \]
+      <p class="cond"><b>Cond:</b> Practical lines are usually low-loss; use exact \(\gamma,Z_0\) only if \(R',G'\) significant.</p>
+    </div>
+
+    <p><b>Coax:</b> \(C'=\dfrac{2\pi\epsilon_s}{\ln(b/a)}\), \(L'=\dfrac{\mu_0}{2\pi}\ln\dfrac{b}{a}\), \(Z_0\approx\dfrac{60\Omega}{\sqrt{\epsilon_r}}\ln\dfrac{b}{a}\), \(v_p\approx c/\sqrt{\epsilon_r}\).</p>
+    <p class="trap"><b>Trap:</b> \(R'\) rises with \(\sqrt f\) (skin effect) — not constant.</p>
+
+    <h3 class="htitle">3.12&ndash;3.14 \(\Gamma\), Standing Waves, SWR</h3>
+    \[ \Gamma\triangleq\frac{Z_L-Z_0}{Z_L+Z_0},\qquad 0\le|\Gamma|\le1 \]
+    <div class="card"><div class="cardtitle">Special cases of \(\Gamma\)</div>
+      <table class="simple"><tr><td>\(Z_L=Z_0\)(matched)</td><td>\(\Gamma=0\)</td></tr>
+      <tr><td>\(Z_L\to\infty\)(open)</td><td>\(\Gamma=+1\)</td></tr>
+      <tr><td>\(Z_L=0\)(short)</td><td>\(\Gamma=-1\)</td></tr>
+      <tr><td>\(Z_L=jX\)(react.)</td><td>\(|\Gamma|=1\), phase \(=\pi-2\phi\)</td></tr></table>
+    </div>
+    \[ \tilde V(z)=V_0^+\big(e^{-j\beta z}+\Gamma e^{+j\beta z}\big) \]
+    \[ |\tilde V(z)|=|V_0^+|\sqrt{1+|\Gamma|^2+2|\Gamma|\cos(2\beta z+\phi)} \]
+    <p>Standing-wave period \(=\lambda/2\); \(V\) max &harr; \(I\) min and vice-versa.</p>
+    \[ \mathrm{SWR}=\frac{1+|\Gamma|}{1-|\Gamma|}\in[1,\infty),\qquad |\Gamma|=\frac{\mathrm{SWR}-1}{\mathrm{SWR}+1} \]
+    <p class="use"><b>Use:</b> \(\Gamma\): given \(Z_L,Z_0\). SWR: given \(|\Gamma|\) (match quality; SWR\(<\)2 typically "good").</p>
+    <p class="trap"><b>Trap:</b> VSWR = current SWR always (not separate).</p>
+
+    <h3 class="htitle">3.15&ndash;3.16 Input Impedance</h3>
+    \[ Z_{in}(l)=Z_0\,\frac{1+\Gamma e^{-j2\beta l}}{1-\Gamma e^{-j2\beta l}}=Z_0\,\frac{Z_L+jZ_0\tan(\beta l)}{Z_0+jZ_L\tan(\beta l)} \]
+    <p>Periodic in \(l\) with period \(\lambda/2\). \(\beta l\)=electrical length.</p>
+    <div class="card"><div class="cardtitle">Stub Input Impedance (lossless)</div>
+      Short (\(Z_L=0\)): \(Z_{in}=+jZ_0\tan\beta l\)<br>
+      Open (\(Z_L\to\infty\)): \(Z_{in}=-jZ_0\cot\beta l\)<br>
+      Alternates open&harr;short every \(\lambda/4\); purely reactive (inductor if \(\tan>0\), capacitor if \(<0\)).
+    </div>
+    <div class="card"><div class="cardtitle">TL Special Cases</div>
+      <table class="simple">
+      <tr><td>\(l=\lambda/4\)</td><td>\(Z_{in}=Z_0^2/Z_L\) (inverter)</td></tr>
+      <tr><td>\(l=\lambda/2\)</td><td>\(Z_{in}=Z_L\)</td></tr>
+      <tr><td>matched line</td><td>\(Z_{in}=Z_0\ \forall l\)</td></tr>
+      </table>
+    </div>
+    <p><b>Measure \(Z_0,\beta l\):</b> \(Z_0=\sqrt{Z_{in}^{SC}Z_{in}^{OC}}\), \(\tan\beta l=\sqrt{-Z_{in}^{SC}/Z_{in}^{OC}}\).</p>
+    <p class="use"><b>Use:</b> \(Z_{in}\): given \(Z_L,Z_0,l\). Stub \(Z_{in}\): replace discrete \(L\)/\(C\) with transmission-line stub.</p>
+    <p class="trap"><b>Trap:</b> Direction convention: \(Z_{in}\) looks <i>toward the load</i>; \(l\) measured <i>from load</i>.</p>
+
+    <h3 class="htitle">3.19&ndash;3.20 Quarter-Wave &amp; Power Flow</h3>
+    <p><b>Quarter-wave transformer:</b> for \(l=\lambda/4\) match of \(Z_L\) to source \(Z_{in}\):</p>
+    \[ Z_0=\sqrt{Z_{in}\cdot Z_L} \]
+    <p class="cond"><b>Cond:</b> Requires real-valued \(Z_L\) (or pre-transform to real with a short line first).</p>
+    <div class="card"><div class="cardtitle">Power Flow on TL</div>
+      \[ P_{av}^+=\frac{|V_0^+|^2}{2Z_0},\qquad P_{av}^-=|\Gamma|^2P_{av}^+ \]
+      \[ P_L=(1-|\Gamma|^2)\,P_{av}^+ \quad\text{(conservation: }P^+=P^-+P_L) \]
+      <p class="use"><b>Use:</b> Fraction reflected \(=|\Gamma|^2\); fraction delivered \(=1-|\Gamma|^2\).</p>
+    </div>
+
+    <h3 class="htitle">3.21&ndash;3.23 Impedance Matching</h3>
+    <p><b>Why:</b> standardize \(Z_0\) (50/75\(\Omega\)), antenna \(Z\) varies w/ freq, amplifier design needs specific \(Z\).</p>
+    <div class="card"><div class="cardtitle">Single-Reactance Matching</div>
+      Series: choose \(l\) so \(\mathrm{Re}\{Z_1(l)\}=\mathrm{Re}\{Z_{in}\}\) (solve \(Z_1=Z_0\frac{1+\Gamma e^{-j2\beta l}}{1-\Gamma e^{-j2\beta l}}\)); then \(X_s=\mathrm{Im}\{Z_{in}-Z_1\}\) in series (\(X_s>0\) ind., \(<0\) cap.).<br>
+      Parallel (admittance): \(\mathrm{Re}\{Y_1\}=\mathrm{Re}\{Y_{in}\}\), then \(B_p=\mathrm{Im}\{Y_{in}-Y_1\}\) shunt.
+    </div>
+    <div class="card"><div class="cardtitle">Single-Stub Matching</div>
+      Main line length \(l_1\): solve \(\mathrm{Re}\{Y_1(l_1)\}=\mathrm{Re}\{Y_{in}\}\). Stub (length \(l_2\), same or diff. \(Z_{02}\)) cancels \(\mathrm{Im}\{Y_1\}\):
+      \[ B_p=+Y_{02}\tan\beta_2l_2\ (\text{open}) \]
+      \[ B_p=-Y_{02}\cot\beta_2l_2\ (\text{short}) \]
+      Choose open/short giving <i>shorter</i> stub (unless DC-block/pass needed).
+    </div>
+    <p class="mini"><b>Mini-template:</b> (1) find \(\Gamma\) (2) find \(l_1\) real-part match (3) find reactance/stub to cancel imag. part (4) verify \(Z_{in}=\)target.</p>
+    <p class="trap"><b>Trap:</b> Quarter-wave zeros the imaginary part <i>first</i> (different order than single-reactance method).</p>
+
+    <h3 class="htitle">9.1&ndash;9.2 Maxwell Phasor &amp; Wave Eqns</h3>
+    <p>Source-free, lossless, homog., isotropic:</p>
+    \[ \nabla\cdot\tilde{\mathbf E}=0,\quad \nabla\times\tilde{\mathbf E}=-j\omega\mu\tilde{\mathbf H} \]
+    \[ \nabla\cdot\tilde{\mathbf H}=0,\quad \nabla\times\tilde{\mathbf H}=+j\omega\epsilon\tilde{\mathbf E} \]
+    \[ \nabla^2\tilde{\mathbf E}+\beta^2\tilde{\mathbf E}=0,\qquad \beta=\omega\sqrt{\mu\epsilon} \]
+    <p class="cond"><b>Cond:</b> \(\sigma=0\) required (source-free precludes conduction loss); complex \(\epsilon\) needed if lossy.</p>
+
+    <h3 class="htitle">9.4&ndash;9.5 Uniform Plane Waves</h3>
+    <p>Uniform over a plane \(\Rightarrow\) \(\mathbf E,\mathbf H\) lie <i>in</i> that plane and propagation \(\perp\) to it; \(\mathbf E,\mathbf H,\hat k\) mutually \(\perp\), with \(\mathbf E\times\mathbf H \parallel \hat k\) (propagation dir.).</p>
+    \[ \tilde{\mathbf E}=\hat x E_0e^{-j\beta z},\qquad \tilde{\mathbf H}=\hat y\frac{E_0}{\eta}e^{-j\beta z} \]
+    \[ \eta\triangleq\frac{\tilde E_x}{\tilde H_y}=\sqrt{\frac\mu\epsilon}\ (\Omega),\qquad \eta_0=\sqrt{\mu_0/\epsilon_0}\approx377\,\Omega \]
+    \[ v_p=\frac{\omega}{\beta}=\frac{1}{\sqrt{\mu\epsilon}},\qquad \lambda=\frac{2\pi}{\beta}=\frac{v_p}{f} \]
+    <p><b>Plane-wave relations:</b> \(\tilde{\mathbf H}=\dfrac{1}{\eta}\hat k\times\tilde{\mathbf E}\), \(\tilde{\mathbf E}=-\eta\,\hat k\times\tilde{\mathbf H}\).</p>
+    <p class="use"><b>Use:</b> Given \(\mathbf E\) + prop. dir. \(\hat k\) &rarr; find \(\mathbf H\) (and vice versa) via right-hand relation.</p>
+    <p class="trap"><b>Trap:</b> \(v_p,\lambda\) shrink vs. free space by \(1/\sqrt{\mu_r\epsilon_r}\); \(\eta\) changes with medium, not just \(\beta\).</p>
+
+    <h3 class="htitle">9.6 Polarization</h3>
+    \[ \tilde{\mathbf E}=(\hat x E_x+\hat y E_y)e^{-j\beta z} \]
+    <div class="card"><div class="cardtitle">Polarization Cases</div>
+      <table class="simple">
+      <tr><td>Linear</td><td>\(E_x,E_y\) same phase (or one \(=0\))</td></tr>
+      <tr><td>Circular</td><td>\(|E_x|=|E_y|\), phase diff. \(=\pm\pi/2\) (LCP/RCP)</td></tr>
+      <tr><td>Elliptical</td><td>unequal amplitude and/or general phase diff.</td></tr>
+      </table>
+    </div>
+    <p>LCP: left thumb along \(+\hat k\), fingers curl w/ \(E\) rotation (\(E_y=+jE_x\)). RCP: opposite (\(E_y=-jE_x\)).</p>
+
+    <h3 class="htitle">9.7 Wave Power</h3>
+    \[ \mathbf S=\mathbf E\times\mathbf H\ (\text{W/m}^2,\text{ instantaneous, Poynting vector}) \]
+    \[ S_{ave}=\frac12\mathrm{Re}\{\tilde{\mathbf E}\times\tilde{\mathbf H}^*\}=\hat z\,\frac{|E_0|^2}{2\eta} \]
+    <p class="use"><b>Use:</b> Time-avg power density of a plane wave, given \(|E_0|\) (peak) and medium \(\eta\).</p>
+    <p class="trap"><b>Trap:</b> Peak vs. rms \(E_0\): rms form has <i>no</i> factor of 2 (\(S_{ave}=|E_{0,rms}|^2/\eta\)).</p>
+
+    <h3 class="htitle">6.1&ndash;6.6 Steady Current &amp; Conductivity</h3>
+    <p>Ohm's Law for EM: \(\mathbf J=\sigma\mathbf E\) (S/m) — conduction current density response to \(E\).</p>
+    \[ I=\int_S\mathbf J\cdot d\mathbf s,\qquad R=\frac{l}{\sigma A},\qquad G=\frac1R=\frac{\sigma A}{l} \]
+    <p>Coax conductance: \(G'=\dfrac{2\pi\sigma_s}{\ln(b/a)}\) (per length).</p>
+    <div class="card"><div class="cardtitle">Power Dissipation (Joule heating)</div>
+      \[ P=\int_{\mathcal V}\mathbf E\cdot\mathbf J\,dv=\int_{\mathcal V}\sigma|\mathbf E|^2\,dv=IV \]
+      Perfect conductor (\(\sigma\to\infty\)) dissipates <i>no</i> power, since \(E\to0\) inside it regardless of current.
+    </div>
+    <p class="use"><b>Use:</b> \(R\): given \(\sigma,l,A\) of a uniform conductor. \(P\): given \(E\) (or \(\sigma,J\)) over a lossy volume.</p>
+    <p class="trap"><b>Trap:</b> Resistance \(\ne\) Re\(\{Z\}\) in general — e.g. a lossless \(Z_{in}\) can have nonzero real part.</p>
+
+    <h3 class="htitle">8.9 Displacement Current &amp; Ampere's Law</h3>
+    <p>DC Ampere's law \(\oint\mathbf H\cdot d\mathbf l=I_{encl}\) fails for AC through a capacitor gap: surface \(S_1\) (cutting the wire) gives \(I_{encl}=I\), but \(S_2\) (through the gap, same boundary \(C\)) gives \(I_{encl}=0\) — contradiction unless a new term is added.</p>
+    \[ I_d=\int_S\frac{\partial\mathbf D}{\partial t}\cdot d\mathbf s \quad(\text{displacement current}) \]
+    \[ \oint_C\mathbf H\cdot d\mathbf l=I_c+I_d \ \ \Rightarrow\ \ \nabla\times\mathbf H=\mathbf J+\frac{\partial\mathbf D}{\partial t} \]
+    <p class="cond"><b>Cond:</b> \(I_d\) is zero for DC, nonzero only when \(E\) (hence \(D\)) is time-varying; it is not a conduction current, but has units of A and enters Ampere's law identically.</p>
+    <p class="use"><b>Use:</b> Explains how \(H\) circulates around a capacitor gap with no conduction current — the "missing" current in the time-varying case.</p>
+    <p class="trap"><b>Trap:</b> Displacement current \(\ne\) actual charge motion between capacitor plates — it's \(\partial D/\partial t\), not \(J\).</p>
+
+  </div>
+</div>
+
+</body>
+</html>
